@@ -385,6 +385,15 @@ class PrinterProbe:
     cmd_Z_OFFSET_APPLY_PROBE_help = "Adjust the probe's z_offset"
 
 
+# Helper to obtain a single probe measurement
+def run_single_probe(probe, gcmd):
+    probe_session = probe.start_probe_session(gcmd)
+    probe_session.run_probe(gcmd)
+    pos = probe_session.pull_probed_results()[0]
+    probe_session.end_probe_session()
+    return pos
+
+
 # Endstop wrapper that enables probe specific features
 class ProbeEndstopWrapper:
     def __init__(self, config):
